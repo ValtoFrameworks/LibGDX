@@ -3133,7 +3133,7 @@ void SwigDirector_btBulletWorldImporter::swig_connect_director(JNIEnv *jenv, job
       "createSliderConstraint", "(Lcom/badlogic/gdx/physics/bullet/dynamics/btRigidBody;Lcom/badlogic/gdx/math/Matrix4;Z)Lcom/badlogic/gdx/physics/bullet/dynamics/btSliderConstraint;", NULL 
     },
     {
-      "createGearConstraint", "(Lcom/badlogic/gdx/physics/bullet/dynamics/btRigidBody;Lcom/badlogic/gdx/physics/bullet/dynamics/btRigidBody;Lcom/badlogic/gdx/math/Vector3;Lcom/badlogic/gdx/math/Vector3;F)Lcom/badlogic/gdx/physics/bullet/extras/SWIGTYPE_p_btGearConstraint;", NULL 
+      "createGearConstraint", "(Lcom/badlogic/gdx/physics/bullet/dynamics/btRigidBody;Lcom/badlogic/gdx/physics/bullet/dynamics/btRigidBody;Lcom/badlogic/gdx/math/Vector3;Lcom/badlogic/gdx/math/Vector3;F)Lcom/badlogic/gdx/physics/bullet/dynamics/btGearConstraint;", NULL 
     },
     {
       "convertAllObjects", "(Lcom/badlogic/gdx/physics/bullet/extras/SWIGTYPE_p_bParse__btBulletFile;)Z", NULL 
@@ -3169,6 +3169,28 @@ void SwigDirector_btBulletWorldImporter::swig_connect_director(JNIEnv *jenv, job
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+SWIGEXPORT jlong JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_btStringArray_1operatorAssignment(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jlong jresult = 0 ;
+  btAlignedObjectArray< char * > *arg1 = (btAlignedObjectArray< char * > *) 0 ;
+  btAlignedObjectArray< char * > *arg2 = 0 ;
+  btAlignedObjectArray< char * > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(btAlignedObjectArray< char * > **)&jarg1; 
+  arg2 = *(btAlignedObjectArray< char * > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "btAlignedObjectArray< char * > const & reference is null");
+    return 0;
+  } 
+  result = (btAlignedObjectArray< char * > *) &(arg1)->operator =((btAlignedObjectArray< char * > const &)*arg2);
+  *(btAlignedObjectArray< char * > **)&jresult = result; 
+  return jresult;
+}
+
 
 SWIGEXPORT jlong JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_new_1btStringArray_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
@@ -3238,6 +3260,23 @@ SWIGEXPORT jstring JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI
   arg1 = *(btAlignedObjectArray< char * > **)&jarg1; 
   arg2 = (int)jarg2; 
   result = (char **) &((btAlignedObjectArray< char * > const *)arg1)->at(arg2);
+  if (*result) jresult = jenv->NewStringUTF((const char *)*result);
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_btStringArray_1operatorSubscript_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jstring jresult = 0 ;
+  btAlignedObjectArray< char * > *arg1 = (btAlignedObjectArray< char * > *) 0 ;
+  int arg2 ;
+  char **result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(btAlignedObjectArray< char * > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  result = (char **) &((btAlignedObjectArray< char * > const *)arg1)->operator [](arg2);
   if (*result) jresult = jenv->NewStringUTF((const char *)*result);
   return jresult;
 }
@@ -3415,6 +3454,39 @@ SWIGEXPORT void JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_bt
 }
 
 
+SWIGEXPORT jboolean JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_btStringArray_1less_1operatorFunctionCall(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jstring jarg3) {
+  jboolean jresult = 0 ;
+  btAlignedObjectArray< char * >::less *arg1 = (btAlignedObjectArray< char * >::less *) 0 ;
+  char **arg2 = 0 ;
+  char **arg3 = 0 ;
+  char *temp2 = 0 ;
+  char *temp3 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(btAlignedObjectArray< char * >::less **)&jarg1; 
+  arg2 = 0;
+  if (jarg2) {
+    temp2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
+    if (!temp2) return 0;
+  }
+  arg2 = &temp2;
+  arg3 = 0;
+  if (jarg3) {
+    temp3 = (char *)jenv->GetStringUTFChars(jarg3, 0);
+    if (!temp3) return 0;
+  }
+  arg3 = &temp3;
+  result = (bool)((btAlignedObjectArray< char * >::less const *)arg1)->operator ()((char *const &)*arg2,(char *const &)*arg3);
+  jresult = (jboolean)result; 
+  if (arg2 && *arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)*arg2);
+  if (arg3 && *arg3) jenv->ReleaseStringUTFChars(jarg3, (const char *)*arg3);
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_new_1btStringArray_1less(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   btAlignedObjectArray< char * >::less *result = 0 ;
@@ -3494,6 +3566,30 @@ SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_bt
   }
   arg2 = &temp2;
   result = (int)((btAlignedObjectArray< char * > const *)arg1)->findLinearSearch((char *const &)*arg2);
+  jresult = (jint)result; 
+  if (arg2 && *arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)*arg2);
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_btStringArray_1findLinearSearch2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jint jresult = 0 ;
+  btAlignedObjectArray< char * > *arg1 = (btAlignedObjectArray< char * > *) 0 ;
+  char **arg2 = 0 ;
+  char *temp2 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(btAlignedObjectArray< char * > **)&jarg1; 
+  arg2 = 0;
+  if (jarg2) {
+    temp2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
+    if (!temp2) return 0;
+  }
+  arg2 = &temp2;
+  result = (int)((btAlignedObjectArray< char * > const *)arg1)->findLinearSearch2((char *const &)*arg2);
   jresult = (jint)result; 
   if (arg2 && *arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)*arg2);
   return jresult;
@@ -5347,7 +5443,7 @@ SWIGEXPORT void JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_de
 }
 
 
-SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_btMultiBodyTreeCreator_1createFromBtMultiBody_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jboolean jarg3) {
+SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_btMultiBodyTreeCreator_1createFromBtMultiBody_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jboolean jarg3) {
   jint jresult = 0 ;
   btInverseDynamicsBullet3::btMultiBodyTreeCreator *arg1 = (btInverseDynamicsBullet3::btMultiBodyTreeCreator *) 0 ;
   btMultiBody *arg2 = (btMultiBody *) 0 ;
@@ -5357,6 +5453,7 @@ SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_bt
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
+  (void)jarg2_;
   arg1 = *(btInverseDynamicsBullet3::btMultiBodyTreeCreator **)&jarg1; 
   arg2 = *(btMultiBody **)&jarg2; 
   arg3 = jarg3 ? true : false; 
@@ -5366,7 +5463,7 @@ SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_bt
 }
 
 
-SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_btMultiBodyTreeCreator_1createFromBtMultiBody_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_btMultiBodyTreeCreator_1createFromBtMultiBody_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jint jresult = 0 ;
   btInverseDynamicsBullet3::btMultiBodyTreeCreator *arg1 = (btInverseDynamicsBullet3::btMultiBodyTreeCreator *) 0 ;
   btMultiBody *arg2 = (btMultiBody *) 0 ;
@@ -5375,6 +5472,7 @@ SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_bt
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
+  (void)jarg2_;
   arg1 = *(btInverseDynamicsBullet3::btMultiBodyTreeCreator **)&jarg1; 
   arg2 = *(btMultiBody **)&jarg2; 
   result = (int)(arg1)->createFromBtMultiBody((btMultiBody const *)arg2);
@@ -5835,7 +5933,7 @@ SWIGEXPORT void JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_de
 }
 
 
-SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_compareInverseAndForwardDynamics(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jobject jarg4, jboolean jarg5, jlong jarg6, jlong jarg7, jobject jarg7_, jobject jarg8, jobject jarg9) {
+SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_compareInverseAndForwardDynamics(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jobject jarg4, jboolean jarg5, jlong jarg6, jobject jarg6_, jlong jarg7, jobject jarg7_, jobject jarg8, jobject jarg9) {
   jint jresult = 0 ;
   vecx *arg1 = 0 ;
   vecx *arg2 = 0 ;
@@ -5850,6 +5948,7 @@ SWIGEXPORT jint JNICALL Java_com_badlogic_gdx_physics_bullet_extras_ExtrasJNI_co
   
   (void)jenv;
   (void)jcls;
+  (void)jarg6_;
   (void)jarg7_;
   arg1 = *(vecx **)&jarg1;
   if (!arg1) {

@@ -12,19 +12,24 @@ import com.badlogic.gdx.physics.bullet.BulletBase;
 import com.badlogic.gdx.physics.bullet.linearmath.*;
 import com.badlogic.gdx.physics.bullet.collision.*;
 import com.badlogic.gdx.physics.bullet.dynamics.*;
-import com.badlogic.gdx.physics.bullet.inversedynamics.*;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.physics.bullet.inversedynamics.MultiBodyTree;
+import com.badlogic.gdx.physics.bullet.dynamics.btDynamicsWorld;
+import com.badlogic.gdx.physics.bullet.dynamics.btContactSolverInfo;
+import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
 
 public class ExtrasJNI {
+  public final static native long btStringArray_operatorAssignment(long jarg1, btStringArray jarg1_, long jarg2, btStringArray jarg2_);
   public final static native long new_btStringArray__SWIG_0();
   public final static native void delete_btStringArray(long jarg1);
   public final static native long new_btStringArray__SWIG_1(long jarg1, btStringArray jarg1_);
   public final static native int btStringArray_size(long jarg1, btStringArray jarg1_);
   public final static native String btStringArray_at__SWIG_0(long jarg1, btStringArray jarg1_, int jarg2);
+  public final static native String btStringArray_operatorSubscript__SWIG_0(long jarg1, btStringArray jarg1_, int jarg2);
   public final static native void btStringArray_clear(long jarg1, btStringArray jarg1_);
   public final static native void btStringArray_pop_back(long jarg1, btStringArray jarg1_);
   public final static native void btStringArray_resizeNoInitialize(long jarg1, btStringArray jarg1_, int jarg2);
@@ -36,11 +41,13 @@ public class ExtrasJNI {
   public final static native void btStringArray_push_back(long jarg1, btStringArray jarg1_, String jarg2);
   public final static native int btStringArray_capacity(long jarg1, btStringArray jarg1_);
   public final static native void btStringArray_reserve(long jarg1, btStringArray jarg1_, int jarg2);
+  public final static native boolean btStringArray_less_operatorFunctionCall(long jarg1, btStringArray.less jarg1_, String jarg2, String jarg3);
   public final static native long new_btStringArray_less();
   public final static native void delete_btStringArray_less(long jarg1);
   public final static native void btStringArray_swap(long jarg1, btStringArray jarg1_, int jarg2, int jarg3);
   public final static native int btStringArray_findBinarySearch(long jarg1, btStringArray jarg1_, String jarg2);
   public final static native int btStringArray_findLinearSearch(long jarg1, btStringArray jarg1_, String jarg2);
+  public final static native int btStringArray_findLinearSearch2(long jarg1, btStringArray jarg1_, String jarg2);
   public final static native void btStringArray_removeAtIndex(long jarg1, btStringArray jarg1_, int jarg2);
   public final static native void btStringArray_remove(long jarg1, btStringArray jarg1_, String jarg2);
   public final static native void btStringArray_initializeFromBuffer(long jarg1, btStringArray jarg1_, long jarg2, int jarg3, int jarg4);
@@ -130,8 +137,8 @@ public class ExtrasJNI {
   public final static native void delete_DillCreator(long jarg1);
   public final static native long new_btMultiBodyTreeCreator();
   public final static native void delete_btMultiBodyTreeCreator(long jarg1);
-  public final static native int btMultiBodyTreeCreator_createFromBtMultiBody__SWIG_0(long jarg1, btMultiBodyTreeCreator jarg1_, long jarg2, boolean jarg3);
-  public final static native int btMultiBodyTreeCreator_createFromBtMultiBody__SWIG_1(long jarg1, btMultiBodyTreeCreator jarg1_, long jarg2);
+  public final static native int btMultiBodyTreeCreator_createFromBtMultiBody__SWIG_0(long jarg1, btMultiBodyTreeCreator jarg1_, long jarg2, btMultiBody jarg2_, boolean jarg3);
+  public final static native int btMultiBodyTreeCreator_createFromBtMultiBody__SWIG_1(long jarg1, btMultiBodyTreeCreator jarg1_, long jarg2, btMultiBody jarg2_);
   public final static native void randomInit__SWIG_0();
   public final static native void randomInit__SWIG_1(long jarg1);
   public final static native int randomInt(int jarg1, int jarg2);
@@ -160,7 +167,7 @@ public class ExtrasJNI {
   public final static native int User2InternalIndex_user2internal(long jarg1, User2InternalIndex jarg1_, int jarg2, java.nio.IntBuffer jarg3);
   public final static native int User2InternalIndex_internal2user(long jarg1, User2InternalIndex jarg1_, int jarg2, java.nio.IntBuffer jarg3);
   public final static native void delete_User2InternalIndex(long jarg1);
-  public final static native int compareInverseAndForwardDynamics(long jarg1, long jarg2, long jarg3, Vector3 jarg4, boolean jarg5, long jarg6, long jarg7, MultiBodyTree jarg7_, java.nio.DoubleBuffer jarg8, java.nio.DoubleBuffer jarg9);
+  public final static native int compareInverseAndForwardDynamics(long jarg1, long jarg2, long jarg3, Vector3 jarg4, boolean jarg5, long jarg6, btMultiBody jarg6_, long jarg7, MultiBodyTree jarg7_, java.nio.DoubleBuffer jarg8, java.nio.DoubleBuffer jarg9);
   public final static native long btBulletWorldImporter_SWIGUpcast(long jarg1);
   public final static native long CoilCreator_SWIGUpcast(long jarg1);
   public final static native long CloneTreeCreator_SWIGUpcast(long jarg1);
@@ -293,7 +300,7 @@ public class ExtrasJNI {
     return btSliderConstraint.getCPtr(jself.createSliderConstraint(new btRigidBody(rbB, false), frameInB, useLinearReferenceFrameA));
   }
   public static long SwigDirector_btBulletWorldImporter_createGearConstraint(btBulletWorldImporter jself, long rbA, long rbB, Vector3 axisInA, Vector3 axisInB, float ratio) {
-    return SWIGTYPE_p_btGearConstraint.getCPtr(jself.createGearConstraint(new btRigidBody(rbA, false), new btRigidBody(rbB, false), axisInA, axisInB, ratio));
+    return btGearConstraint.getCPtr(jself.createGearConstraint(new btRigidBody(rbA, false), new btRigidBody(rbB, false), axisInA, axisInB, ratio));
   }
   public static boolean SwigDirector_btBulletWorldImporter_convertAllObjects(btBulletWorldImporter jself, long file) {
     return jself.convertAllObjects((file == 0) ? null : new SWIGTYPE_p_bParse__btBulletFile(file, false));

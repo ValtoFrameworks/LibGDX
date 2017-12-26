@@ -12,11 +12,14 @@ import com.badlogic.gdx.physics.bullet.BulletBase;
 import com.badlogic.gdx.physics.bullet.linearmath.*;
 import com.badlogic.gdx.physics.bullet.collision.*;
 import com.badlogic.gdx.physics.bullet.dynamics.*;
-import com.badlogic.gdx.physics.bullet.inversedynamics.*;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.physics.bullet.inversedynamics.MultiBodyTree;
+import com.badlogic.gdx.physics.bullet.dynamics.btDynamicsWorld;
+import com.badlogic.gdx.physics.bullet.dynamics.btContactSolverInfo;
+import com.badlogic.gdx.physics.bullet.collision.btCollisionShape;
 
 public class Extras {
 
@@ -104,11 +107,11 @@ public class Extras {
     return ExtrasJNI.writeGraphvizDotFile(MultiBodyTree.getCPtr(tree), tree, MultiBodyNameMap.getCPtr(map), map, filename);
   }
 
-  public static int compareInverseAndForwardDynamics(SWIGTYPE_p_vecx q, SWIGTYPE_p_vecx u, SWIGTYPE_p_vecx dot_u, Vector3 gravity, boolean verbose, SWIGTYPE_p_btMultiBody btmb, MultiBodyTree id_tree, java.nio.DoubleBuffer pos_error, java.nio.DoubleBuffer acc_error) {
+  public static int compareInverseAndForwardDynamics(SWIGTYPE_p_vecx q, SWIGTYPE_p_vecx u, SWIGTYPE_p_vecx dot_u, Vector3 gravity, boolean verbose, btMultiBody btmb, MultiBodyTree id_tree, java.nio.DoubleBuffer pos_error, java.nio.DoubleBuffer acc_error) {
     assert pos_error.isDirect() : "Buffer must be allocated direct.";
     assert acc_error.isDirect() : "Buffer must be allocated direct.";
     {
-      return ExtrasJNI.compareInverseAndForwardDynamics(SWIGTYPE_p_vecx.getCPtr(q), SWIGTYPE_p_vecx.getCPtr(u), SWIGTYPE_p_vecx.getCPtr(dot_u), gravity, verbose, SWIGTYPE_p_btMultiBody.getCPtr(btmb), MultiBodyTree.getCPtr(id_tree), id_tree, pos_error, acc_error);
+      return ExtrasJNI.compareInverseAndForwardDynamics(SWIGTYPE_p_vecx.getCPtr(q), SWIGTYPE_p_vecx.getCPtr(u), SWIGTYPE_p_vecx.getCPtr(dot_u), gravity, verbose, btMultiBody.getCPtr(btmb), btmb, MultiBodyTree.getCPtr(id_tree), id_tree, pos_error, acc_error);
     }
   }
 
