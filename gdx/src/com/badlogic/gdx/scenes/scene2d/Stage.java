@@ -125,11 +125,8 @@ public class Stage extends InputAdapter implements Disposable {
 		Batch batch = this.batch;
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		try {
-			root.draw(batch, 1);
-		} finally {
-			batch.end();
-		}
+		root.draw(batch, 1);
+		batch.end();
 
 		if (debug) drawDebug();
 	}
@@ -168,11 +165,8 @@ public class Stage extends InputAdapter implements Disposable {
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		debugShapes.setProjectionMatrix(viewport.getCamera().combined);
 		debugShapes.begin();
-		try {
-			root.drawDebug(debugShapes);
-		} finally {
-			debugShapes.end();
-		}
+		root.drawDebug(debugShapes);
+		debugShapes.end();
 	}
 
 	/** Disables debug on all actors recursively except the specified actor and any children. */

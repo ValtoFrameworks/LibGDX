@@ -154,12 +154,10 @@ public class WidgetGroup extends Group implements Layout {
 	public void pack () {
 		setSize(getPrefWidth(), getPrefHeight());
 		validate();
-		// Some situations require another layout. Eg, a wrapped label doesn't know its pref height until it knows its width, so it
-		// calls invalidateHierarchy() in layout() if its pref height has changed.
-		if (needsLayout) {
-			setSize(getPrefWidth(), getPrefHeight());
-			validate();
-		}
+		// Validating the layout may change the pref size. Eg, a wrapped label doesn't know its pref height until it knows its
+		// width, so it calls invalidateHierarchy() in layout() if its pref height has changed.
+		setSize(getPrefWidth(), getPrefHeight());
+		validate();
 	}
 
 	public void setFillParent (boolean fillParent) {
@@ -171,8 +169,8 @@ public class WidgetGroup extends Group implements Layout {
 
 	/** If this method is overridden, the super method or {@link #validate()} should be called to ensure the widget group is laid
 	 * out. */
-	public void draw (Batch batch, float a) {
+	public void draw (Batch batch, float parentAlpha) {
 		validate();
-		super.draw(batch, a);
+		super.draw(batch, parentAlpha);
 	}
 }

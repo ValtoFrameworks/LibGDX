@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Cullable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -565,7 +566,7 @@ public class ScrollPane extends WidgetGroup {
 	}
 
 	@Override
-	public void draw (Batch batch, float a) {
+	public void draw (Batch batch, float parentAlpha) {
 		if (widget == null) return;
 
 		validate();
@@ -581,7 +582,7 @@ public class ScrollPane extends WidgetGroup {
 
 		// Draw the background ninepatch.
 		Color color = getColor();
-		batch.setColor(color.r, color.g, color.b, color.a * a);
+		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 		if (style.background != null) style.background.draw(batch, 0, 0, getWidth(), getHeight());
 
 		// Caculate the scissor bounds based on the batch transform, the available widget area and the camera transform. We need to
@@ -591,13 +592,13 @@ public class ScrollPane extends WidgetGroup {
 		// Enable scissors for widget area and draw the widget.
 		batch.flush();
 		if (ScissorStack.pushScissors(scissorBounds)) {
-			drawChildren(batch, a);
+			drawChildren(batch, parentAlpha);
 			batch.flush();
 			ScissorStack.popScissors();
 		}
 
 		// Render scrollbars and knobs on top if they will be visible
-		float alpha = color.a * a * Interpolation.fade.apply(fadeAlpha / fadeAlphaSeconds);
+		float alpha = color.a * parentAlpha * Interpolation.fade.apply(fadeAlpha / fadeAlphaSeconds);
 		if (alpha > 0f) {
 			batch.setColor(color.r, color.g, color.b, alpha);
 			if (scrollX && scrollY) {
@@ -735,8 +736,10 @@ public class ScrollPane extends WidgetGroup {
 
 	public Actor hit (float x, float y, boolean touchable) {
 		if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) return null;
-		if (scrollX && touchScrollH && hScrollBounds.contains(x, y)) return this;
-		if (scrollY && touchScrollV && vScrollBounds.contains(x, y)) return this;
+		if (touchable && getTouchable() == Touchable.enabled && isVisible()) {
+			if (scrollX && touchScrollH && hScrollBounds.contains(x, y)) return this;
+			if (scrollY && touchScrollV && vScrollBounds.contains(x, y)) return this;
+		}
 		return super.hit(x, y, touchable);
 	}
 

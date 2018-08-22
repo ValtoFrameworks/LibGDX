@@ -99,23 +99,32 @@ public class FreeTypeFontGenerator implements Disposable {
 		library = FreeType.initFreeType();
 		if (library == null) throw new GdxRuntimeException("Couldn't initialize FreeType");
 
-		ByteBuffer buffer;
-		InputStream input = fontFile.read();
+		ByteBuffer buffer = null;
+		
 		try {
-			if (fileSize == 0) {
-				// Copy to a byte[] to get the file size, then copy to the buffer.
-				byte[] data = StreamUtils.copyStreamToByteArray(input, fileSize > 0 ? (int)(fileSize * 1.5f) : 1024 * 16);
-				buffer = BufferUtils.newUnsafeByteBuffer(data.length);
-				BufferUtils.copy(data, 0, buffer, data.length);
-			} else {
-				// Trust the specified file size.
-				buffer = BufferUtils.newUnsafeByteBuffer(fileSize);
-				StreamUtils.copyStream(input, buffer);
+			buffer = fontFile.map();
+		} catch (GdxRuntimeException e) {
+			//Silently error, certain platforms do not support file mapping.
+		}
+		
+		if (buffer == null) {
+			InputStream input = fontFile.read();
+			try {
+				if (fileSize == 0) {
+					// Copy to a byte[] to get the file size, then copy to the buffer.
+					byte[] data = StreamUtils.copyStreamToByteArray(input, 1024 * 16);
+					buffer = BufferUtils.newUnsafeByteBuffer(data.length);
+					BufferUtils.copy(data, 0, buffer, data.length);
+				} else {
+					// Trust the specified file size.
+					buffer = BufferUtils.newUnsafeByteBuffer(fileSize);
+					StreamUtils.copyStream(input, buffer);
+				}
+			} catch (IOException ex) {
+				throw new GdxRuntimeException(ex);
+			} finally {
+				StreamUtils.closeQuietly(input);
 			}
-		} catch (IOException ex) {
-			throw new GdxRuntimeException(ex);
-		} finally {
-			StreamUtils.closeQuietly(input);
 		}
 
 		face = library.newMemoryFace(buffer, faceIndex);
@@ -701,9 +710,9 @@ public class FreeTypeFontGenerator implements Disposable {
 			return glyph;
 		}
 
-		public void getGlyphs (GlyphRun run, CharSequence str, int start, int end, boolean tightBounds) {
+		public void getGlyphs (GlyphRun run, CharSequence str, int start, int end, Glyph lastGlyph) {
 			if (packer != null) packer.setPackToTexture(true); // All glyphs added after this are packed directly to the texture.
-			super.getGlyphs(run, str, start, end, tightBounds);
+			super.getGlyphs(run, str, start, end, lastGlyph);
 			if (dirty) {
 				dirty = false;
 				packer.updateTextureRegions(regions, parameter.minFilter, parameter.magFilter, parameter.genMipMaps);
